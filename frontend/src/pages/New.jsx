@@ -31,41 +31,52 @@ const New = () => {
     };
 
     return (
-        <div className="container" style={{ maxWidth: '600px' }}>
-            <h1 style={{ marginBottom: '2rem' }}>List your <span className="text-gradient">Space</span></h1>
-            <form onSubmit={handleSubmit} className="glass-card" style={{ padding: '2rem' }}>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Title</label>
-                    <input name="title" onChange={handleChange} required className="btn-primary" style={{ background: 'var(--glass)', color: 'white', width: '100%', textAlign: 'left', border: '1px solid var(--glass-border)' }} />
-                </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Description</label>
-                    <textarea name="description" onChange={handleChange} required rows="4" style={{ background: 'var(--glass)', color: 'white', width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--glass-border)' }}></textarea>
-                </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Image URL</label>
-                    <input name="image" onChange={handleChange} placeholder="https://..." style={{ background: 'var(--glass)', color: 'white', width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--glass-border)' }} />
-                </div>
-                <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
-                    <div style={{ flex: 1 }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Price (₹)</label>
-                        <input name="price" type="number" onChange={handleChange} required style={{ background: 'var(--glass)', color: 'white', width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--glass-border)' }} />
+        <div className="container animate-slide-up" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="glass-card" style={{ width: '100%', maxWidth: '700px', padding: '3.5rem' }}>
+                <h1 style={{ marginBottom: '1rem', textAlign: 'center' }}>Host Your <span className="text-gradient">Space</span></h1>
+                <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '3rem', fontSize: '1rem' }}>Share your unique space with our community of premium travelers.</p>
+                
+                <form onSubmit={handleSubmit}>
+                    <div style={{ marginBottom: '2rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Listing Title</label>
+                        <input name="title" placeholder="Stunning Cliffside Villa" onChange={handleChange} required />
                     </div>
-                    <div style={{ flex: 1 }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Country</label>
-                        <input name="country" onChange={handleChange} required style={{ background: 'var(--glass)', color: 'white', width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--glass-border)' }} />
+
+                    <div style={{ marginBottom: '2rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Description</label>
+                        <textarea name="description" placeholder="Describe the experience, amenities, and vibe..." onChange={handleChange} required rows="5"></textarea>
                     </div>
-                </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Location</label>
-                    <input name="location" onChange={handleChange} required style={{ background: 'var(--glass)', color: 'white', width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--glass-border)' }} />
-                </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem' }}>Hotel Contact Info (Email or Phone)</label>
-                    <input name="contact" onChange={handleChange} required placeholder="+91 12345 67890" />
-                </div>
-                <button type="submit" className="btn-primary" style={{ width: '100%' }}>Create Space</button>
-            </form>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Price (₹ / Night)</label>
+                            <input name="price" type="number" placeholder="5000" onChange={handleChange} required />
+                        </div>
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Image URL</label>
+                            <input name="image" placeholder="https://..." onChange={handleChange} required />
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Location</label>
+                            <input name="location" placeholder="Malibu, CA" onChange={handleChange} required />
+                        </div>
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Country</label>
+                            <input name="country" placeholder="USA" onChange={handleChange} required />
+                        </div>
+                    </div>
+
+                    <div style={{ marginBottom: '3rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Host Contact Info</label>
+                        <input name="contact" placeholder="Email or Phone Number" onChange={handleChange} required />
+                    </div>
+
+                    <button type="submit" className="btn-primary" style={{ width: '100%', padding: '1.25rem', fontSize: '1.1rem' }}>Create Listing ✨</button>
+                </form>
+            </div>
         </div>
     );
 };

@@ -10,9 +10,12 @@ import Signup from './pages/Signup'
 import NotFound from './pages/NotFound'
 import AdminDashboard from './pages/AdminDashboard'
 
+import { Toaster } from 'react-hot-toast'
+
 function App() {
   return (
     <div className="app-container">
+      <Toaster position="top-right" toastOptions={{ style: { background: '#111827', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' } }} />
       <Navbar />
       <main className="container">
         <Routes>

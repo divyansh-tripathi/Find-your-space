@@ -24,26 +24,32 @@ const Signup = () => {
     };
 
     return (
-        <div className="container" style={{ maxWidth: '400px' }}>
-            <h1 style={{ marginBottom: '2rem', textAlign: 'center' }}>Create <span className="text-gradient">Space</span> Account</h1>
-            <form onSubmit={handleSubmit} className="glass-card" style={{ padding: '2rem' }}>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Username</label>
-                    <input name="username" onChange={handleChange} required style={{ background: 'var(--glass)', color: 'white', width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--glass-border)' }} />
-                </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Email</label>
-                    <input name="email" type="email" onChange={handleChange} required style={{ background: 'var(--glass)', color: 'white', width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--glass-border)' }} />
-                </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Password</label>
-                    <input name="password" type="password" onChange={handleChange} required style={{ background: 'var(--glass)', color: 'white', width: '100%', padding: '0.75rem', borderRadius: '0.5rem', border: '1px solid var(--glass-border)' }} />
-                </div>
-                <button type="submit" className="btn-primary" style={{ width: '100%', marginBottom: '1rem' }}>Signup</button>
-                <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                    Already have an account? <Link to="/login" style={{ color: 'var(--primary)', textDecoration: 'none' }}>Login</Link>
-                </p>
-            </form>
+        <div className="container animate-slide-up" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="glass-card" style={{ width: '100%', maxWidth: '450px', padding: '3.5rem' }}>
+                <h1 style={{ marginBottom: '1rem', textAlign: 'center' }}>Join the <span className="text-gradient">Community</span></h1>
+                <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '2.5rem', fontSize: '0.95rem' }}>Create an account to start exploring premium spaces.</p>
+                
+                <form onSubmit={handleSubmit}>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Username</label>
+                        <input name="username" placeholder="johndoe" onChange={handleChange} required />
+                    </div>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Email Address</label>
+                        <input name="email" type="email" placeholder="john@example.com" onChange={handleChange} required />
+                    </div>
+                    <div style={{ marginBottom: '2rem' }}>
+                        <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Password</label>
+                        <input name="password" type="password" placeholder="••••••••" onChange={handleChange} required />
+                    </div>
+                    
+                    <button type="submit" className="btn-primary" style={{ width: '100%', marginBottom: '1.5rem', padding: '1rem' }}>Create Free Account</button>
+                    
+                    <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+                        Already have an account? <Link to="/login" style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 600 }}>Log in</Link>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

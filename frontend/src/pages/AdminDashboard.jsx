@@ -43,42 +43,68 @@ const AdminDashboard = () => {
         }
     };
 
-    if (loading) return <div className="container"><h2>Loading User Management...</h2></div>;
+    if (loading) return (
+        <div className="container animate-slide-up">
+            <div className="skeleton" style={{ height: '400px', width: '100%' }}></div>
+        </div>
+    );
 
     return (
-        <div className="container animate-fade-in">
-            <h1 style={{ marginBottom: '2rem' }}>User <span className="text-gradient">Management</span> Dashboard</h1>
-            <div className="glass-card" style={{ padding: '2rem', overflowX: 'auto' }}>
+        <div className="container animate-slide-up">
+            <div style={{ marginBottom: '3rem' }}>
+                <h1 style={{ marginBottom: '0.5rem' }}>Management <span className="text-gradient">Console</span></h1>
+                <p style={{ color: 'var(--text-muted)' }}>Control center for user roles and platform security.</p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+                <div className="glass-card" style={{ padding: '2rem', textAlign: 'center' }}>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Total Users</div>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 800 }}>{users.length}</div>
+                </div>
+                <div className="glass-card" style={{ padding: '2rem', textAlign: 'center' }}>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Admins</div>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)' }}>{users.filter(u => u.role === 'admin').length}</div>
+                </div>
+                <div className="glass-card" style={{ padding: '2rem', textAlign: 'center' }}>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>System Status</div>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#10b981', marginTop: '1rem' }}>● Operational</div>
+                </div>
+            </div>
+
+            <div className="glass-card" style={{ padding: '0', overflowX: 'auto', border: '1px solid rgba(255,255,255,0.05)' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                     <thead>
-                        <tr style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                            <th style={{ padding: '1rem' }}>Username</th>
-                            <th style={{ padding: '1rem' }}>Email</th>
-                            <th style={{ padding: '1rem' }}>Role</th>
-                            <th style={{ padding: '1rem' }}>Actions</th>
+                        <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                            <th style={{ padding: '1.5rem', fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>User Profile</th>
+                            <th style={{ padding: '1.5rem', fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>Email Address</th>
+                            <th style={{ padding: '1.5rem', fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>Access Level</th>
+                            <th style={{ padding: '1.5rem', fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)', textAlign: 'right' }}>Management</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.map(user => (
-                            <tr key={user._id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                                <td style={{ padding: '1rem' }}>@{user.username}</td>
-                                <td style={{ padding: '1rem' }}>{user.email}</td>
-                                <td style={{ padding: '1rem' }}>
+                            <tr key={user._id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }} className="hover-card">
+                                <td style={{ padding: '1.5rem' }}>
+                                    <div style={{ fontWeight: 700 }}>@{user.username}</div>
+                                </td>
+                                <td style={{ padding: '1.5rem', color: 'var(--text-muted)' }}>{user.email}</td>
+                                <td style={{ padding: '1.5rem' }}>
                                     <select 
                                         value={user.role} 
                                         onChange={(e) => handleRoleChange(user._id, e.target.value)}
-                                        style={{ width: 'auto', padding: '0.4rem', fontSize: '0.9rem' }}
+                                        style={{ width: '140px', padding: '0.4rem', fontSize: '0.9rem', background: 'rgba(0,0,0,0.2)' }}
                                     >
                                         <option value="visitor">Visitor</option>
                                         <option value="admin">Admin</option>
                                     </select>
                                 </td>
-                                <td style={{ padding: '1rem' }}>
+                                <td style={{ padding: '1.5rem', textAlign: 'right' }}>
                                     <button 
                                         onClick={() => handleDeleteUser(user._id)}
-                                        style={{ background: 'none', border: 'none', color: 'var(--secondary)', cursor: 'pointer', fontWeight: 600 }}
+                                        className="btn-primary"
+                                        style={{ background: 'var(--secondary)', padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}
                                     >
-                                        Delete
+                                        Revoke Access
                                     </button>
                                 </td>
                             </tr>
