@@ -4,7 +4,15 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
 });
 
-// Add a request interceptor to handle credentials if needed
+// Add a request interceptor to handle credentials and tokens
 api.defaults.withCredentials = true;
+
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
 export default api;

@@ -23,6 +23,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             await api.get('/logout');
+            localStorage.removeItem('token');
             toast.success("Logged out successfully");
             setUser(null);
             navigate('/');

@@ -20,7 +20,7 @@ router.post("/login",
 router.get("/logout", userController.logout);
 
 // Current User
-router.get("/currUser", userController.getCurrUser);
+router.get("/currUser", checkToken, userController.getCurrUser);
 
 // --- ADMIN ROUTES ---
 const { isAdmin, isLoggedIn } = require("../middleware.js");

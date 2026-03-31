@@ -1,10 +1,46 @@
 const Listing = require("./models/listing");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema } = require("./schema.js");
+const jwt = require("jsonwebtoken");
+const User = require("./models/user");
 
-module.exports.isLoggedIn = (req, res, next) => {
-    if (!req.isAuthenticated()) {
-        return res.status(401).json({ error: "You must be logged in to perform this action" });
+module.exports.isLoggedIn = async (req, res, next) => {
+    // Check if session-based auth already works
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    // Fallback to JWT
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
+        try {
+            const decoded = jwt.verify(token, process.env.SECRET || "mysupersecretcode");
+            const user = await User.findById(decoded.id);
+            if (user) {
+                req.user = user;
+                return next();
+            }
+        } catch (err) {
+            // Token invalid or expired
+            return res.status(401).json({ error: "Session expired. Please login again." });
+        }
+    }
+
+    return res.status(401).json({ error: "You must be logged in to perform this action" });
+};
+
+module.exports.checkToken = async (req, res, next) => {
+    if (req.isAuthenticated()) return next();
+    
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
+        try {
+            const decoded = jwt.verify(token, process.env.SECRET || "mysupersecretcode");
+            const user = await User.findById(decoded.id);
+            if (user) req.user = user;
+        } catch (err) {}
     }
     next();
 };

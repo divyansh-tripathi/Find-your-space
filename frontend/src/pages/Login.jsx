@@ -14,10 +14,13 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/login', credentials);
+            const res = await api.post('/login', credentials);
+            if (res.data.token) {
+                localStorage.setItem('token', res.data.token);
+            }
             toast.success("Welcome back!");
             navigate('/');
-            window.location.reload(); // Refresh to update user state globally
+            window.location.reload(); 
         } catch (err) {
             toast.error(err.response?.data?.error || "Invalid username or password");
         }

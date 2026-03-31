@@ -14,7 +14,10 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/signup', user);
+            const res = await api.post('/signup', user);
+            if (res.data.token) {
+                localStorage.setItem('token', res.data.token);
+            }
             toast.success("Welcome to FindYourSpace!");
             navigate('/');
             window.location.reload();

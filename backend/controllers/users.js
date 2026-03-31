@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 // Signup
 module.exports.signup = async (req, res, next) => {
@@ -8,7 +9,8 @@ module.exports.signup = async (req, res, next) => {
         const registeredUser = await User.register(newUser, password);
         req.login(registeredUser, (err) => {
             if (err) return next(err);
-            res.status(201).json({ message: "Welcome to FindYourSpace!", user: registeredUser });
+            const token = jwt.sign({ id: registeredUser._id }, process.env.SECRET || "mysupersecretcode", { expiresIn: "7d" });
+            res.status(201).json({ message: "Welcome to FindYourSpace!", user: registeredUser, token });
         });
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -17,7 +19,8 @@ module.exports.signup = async (req, res, next) => {
 
 // Login
 module.exports.login = async (req, res) => {
-    res.json({ message: "Welcome back!", user: req.user });
+    const token = jwt.sign({ id: req.user._id }, process.env.SECRET || "mysupersecretcode", { expiresIn: "7d" });
+    res.json({ message: "Welcome back!", user: req.user, token });
 };
 
 // Logout

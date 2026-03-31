@@ -15,6 +15,8 @@ const listingRouter = require("./routes/listing.js");
 const userRouter = require("./routes/user.js");
 const ExpressError = require("./utils/ExpressError.js");
 
+const MongoStore = require("connect-mongo");
+
 const MONGO_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/find-your-space";
 
 // Database Connection
@@ -35,8 +37,9 @@ const corsOptions = {
     optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
+app.set("trust proxy", 1); // Required for secure cookies on Render/Vercel
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); // Essential for REST API
+app.use(express.json());
 
 // Request Logger
 app.use((req, res, next) => {
@@ -48,14 +51,25 @@ app.use((req, res, next) => {
 });
 
 // Session configuration
+const store = MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto: {
+        secret: process.env.SECRET || "mysupersecretcode",
+    },
+    touchAfter: 24 * 3600,
+});
+
 const sessionOptions = {
-    secret: "mysupersecretcode",
+    store,
+    secret: process.env.SECRET || "mysupersecretcode",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
 };
 
