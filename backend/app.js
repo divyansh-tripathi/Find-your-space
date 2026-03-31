@@ -29,7 +29,12 @@ async function main() {
 }
 
 // Middlewares
-app.use(cors());
+const corsOptions = {
+    origin: ["https://find-your-space.vercel.app", "http://localhost:5173"], // We will update this with actual Vercel URL
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // Essential for REST API
 
