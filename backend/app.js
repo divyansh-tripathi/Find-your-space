@@ -30,7 +30,7 @@ async function main() {
 
 // Middlewares
 const corsOptions = {
-    origin: ["https://find-your-space.vercel.app", "http://localhost:5173"], // We will update this with actual Vercel URL
+    origin: ["https://find-your-space.vercel.app", "http://localhost:5173", "http://localhost:5174", "http://localhost:3000", "http://localhost:5175"],
     credentials: true,
     optionsSuccessStatus: 200
 };
