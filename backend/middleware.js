@@ -5,12 +5,8 @@ const jwt = require("jsonwebtoken");
 const User = require("./models/user");
 
 module.exports.isLoggedIn = async (req, res, next) => {
-    // Check if session-based auth already works
-    if (req.isAuthenticated()) {
-        return next();
-    }
+    if (req.isAuthenticated()) return next();
 
-    // Fallback to JWT
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith("Bearer ")) {
         const token = authHeader.split(" ")[1];
@@ -22,7 +18,6 @@ module.exports.isLoggedIn = async (req, res, next) => {
                 return next();
             }
         } catch (err) {
-            // Token invalid or expired
             return res.status(401).json({ error: "Session expired. Please login again." });
         }
     }
@@ -32,7 +27,6 @@ module.exports.isLoggedIn = async (req, res, next) => {
 
 module.exports.checkToken = async (req, res, next) => {
     if (req.isAuthenticated()) return next();
-    
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith("Bearer ")) {
         const token = authHeader.split(" ")[1];
@@ -40,15 +34,13 @@ module.exports.checkToken = async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.SECRET || "mysupersecretcode");
             const user = await User.findById(decoded.id);
             if (user) req.user = user;
-        } catch (err) {}
+        } catch (err) { }
     }
     next();
 };
 
 module.exports.saveRedirectUrl = (req, res, next) => {
-    if (req.session.redirectUrl) {
-        res.locals.redirectUrl = req.session.redirectUrl;
-    }
+    if (req.session.redirectUrl) res.locals.redirectUrl = req.session.redirectUrl;
     next();
 };
 
@@ -56,15 +48,8 @@ module.exports.isOwner = async (req, res, next) => {
     let { id } = req.params;
     try {
         let listing = await Listing.findById(id);
-        if (!listing) {
-            return res.status(404).json({ error: "Listing not found" });
-        }
-        
-        // Admins can bypass ownership checks for management
-        if (req.user.role === "admin") {
-            return next();
-        }
-
+        if (!listing) return res.status(404).json({ error: "Listing not found" });
+        if (req.user.role === "admin") return next();
         if (!listing.owner.equals(req.user._id)) {
             return res.status(403).json({ error: "You do not have permission to modify this listing" });
         }
@@ -75,9 +60,6 @@ module.exports.isOwner = async (req, res, next) => {
 };
 
 module.exports.isAdmin = (req, res, next) => {
-    if (req.user && req.user.role === "admin") {
-        next();
-    } else {
-        res.status(403).json({ error: "Access denied. Admin privileges required." });
-    }
+    if (req.user && req.user.role === "admin") return next();
+    res.status(403).json({ error: "Access denied. Admin privileges required." });
 };

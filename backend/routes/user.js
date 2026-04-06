@@ -3,12 +3,13 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const userController = require("../controllers/users.js");
+const { checkToken } = require("../middleware.js");
 
 // Signup
 router.post("/signup", wrapAsync(userController.signup));
 
 // Login
-router.post("/login", 
+router.post("/login",
     passport.authenticate("local", { failWithError: true }),
     userController.login,
     (err, req, res, next) => {

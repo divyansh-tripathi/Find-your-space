@@ -1,12 +1,13 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
-// Signup
 module.exports.signup = async (req, res, next) => {
     try {
-        let { username, email, password } = req.body;
-        const newUser = new User({ email, username });
-        const registeredUser = await User.register(newUser, password);
+        const { username, email, password, role } = req.body;
+        const userData = { email, username };
+        userData.role = (role === "manager" || role === "admin") ? role : "visitor";
+
+        const registeredUser = await User.register(userData, password);
         req.login(registeredUser, (err) => {
             if (err) return next(err);
             const token = jwt.sign({ id: registeredUser._id }, process.env.SECRET || "mysupersecretcode", { expiresIn: "7d" });
@@ -17,13 +18,11 @@ module.exports.signup = async (req, res, next) => {
     }
 };
 
-// Login
 module.exports.login = async (req, res) => {
     const token = jwt.sign({ id: req.user._id }, process.env.SECRET || "mysupersecretcode", { expiresIn: "7d" });
     res.json({ message: "Welcome back!", user: req.user, token });
 };
 
-// Logout
 module.exports.logout = (req, res, next) => {
     req.logout((err) => {
         if (err) return next(err);
@@ -31,21 +30,15 @@ module.exports.logout = (req, res, next) => {
     });
 };
 
-// CurrUser status
 module.exports.getCurrUser = (req, res) => {
-    console.log("Backend Req User:", req.user);
     res.json({ user: req.user || null });
 };
 
-// --- ADMIN METHODS ---
-
-// List all users
 module.exports.index = async (req, res) => {
     const users = await User.find({});
     res.json(users);
 };
 
-// Update User Role
 module.exports.updateRole = async (req, res) => {
     const { id } = req.params;
     const { role } = req.body;
@@ -53,7 +46,6 @@ module.exports.updateRole = async (req, res) => {
     res.json({ message: `User role updated to ${role}`, user });
 };
 
-// Delete User
 module.exports.destroyUser = async (req, res) => {
     const { id } = req.params;
     await User.findByIdAndDelete(id);
