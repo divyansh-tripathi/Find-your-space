@@ -66,6 +66,10 @@ const AdminDashboard = () => {
                     <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)' }}>{users.filter(u => u.role === 'admin').length}</div>
                 </div>
                 <div className="glass-card" style={{ padding: '2rem', textAlign: 'center' }}>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Managers</div>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#f59e0b' }}>{users.filter(u => u.role === 'manager').length}</div>
+                </div>
+                <div className="glass-card" style={{ padding: '2rem', textAlign: 'center' }}>
                     <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>System Status</div>
                     <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#10b981', marginTop: '1rem' }}>● Operational</div>
                 </div>
@@ -89,17 +93,30 @@ const AdminDashboard = () => {
                                 </td>
                                 <td style={{ padding: '1.5rem', color: 'var(--text-muted)' }}>{user.email}</td>
                                 <td style={{ padding: '1.5rem' }}>
-                                    <select 
-                                        value={user.role} 
-                                        onChange={(e) => handleRoleChange(user._id, e.target.value)}
-                                        style={{ width: '140px', padding: '0.4rem', fontSize: '0.9rem', background: 'rgba(0,0,0,0.2)' }}
-                                    >
-                                        <option value="visitor">Visitor</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                        <span style={{
+                                            display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%',
+                                            background: user.role === 'admin' ? 'var(--primary)' : user.role === 'manager' ? '#f59e0b' : 'var(--text-muted)',
+                                            flexShrink: 0,
+                                        }} />
+                                        <select
+                                            value={user.role}
+                                            onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                                            style={{
+                                                padding: '0.45rem 0.75rem', fontSize: '0.88rem',
+                                                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                                                borderRadius: '0.5rem', color: 'white', cursor: 'pointer',
+                                                width: '130px',
+                                            }}
+                                        >
+                                            <option value="visitor">👤 Visitor</option>
+                                            <option value="manager">🏢 Manager</option>
+                                            <option value="admin">⚡ Admin</option>
+                                        </select>
+                                    </div>
                                 </td>
                                 <td style={{ padding: '1.5rem', textAlign: 'right' }}>
-                                    <button 
+                                    <button
                                         onClick={() => handleDeleteUser(user._id)}
                                         className="btn-primary"
                                         style={{ background: 'var(--secondary)', padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}

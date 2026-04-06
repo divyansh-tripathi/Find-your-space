@@ -44,10 +44,10 @@ const Edit = () => {
 
     return (
         <div className="container animate-slide-up" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <div className="glass-card" style={{ width: '100%', maxWidth: '700px', padding: '3.5rem' }}>
+            <div className="glass-card form-container" style={{ padding: '3.5rem' }}>
                 <h1 style={{ marginBottom: '1rem', textAlign: 'center' }}>Update <span className="text-gradient">Space</span></h1>
                 <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '3rem', fontSize: '1rem' }}>Revise your listing details to keep it fresh and attractive.</p>
-                
+
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '2rem' }}>
                         <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Listing Title</label>
@@ -59,7 +59,7 @@ const Edit = () => {
                         <textarea name="description" value={listing.description} onChange={handleChange} required rows="5"></textarea>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
+                    <div className="grid-2 mb-2">
                         <div>
                             <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Price (₹ / Night)</label>
                             <input name="price" type="number" value={listing.price} onChange={handleChange} required />
@@ -70,7 +70,7 @@ const Edit = () => {
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
+                    <div className="grid-2 mb-2">
                         <div>
                             <label style={{ display: 'block', marginBottom: '0.6rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05rem' }}>Location</label>
                             <input name="location" value={listing.location} onChange={handleChange} required />

@@ -56,7 +56,8 @@ const Show = () => {
         try {
             const res = await api.post(`/listings/${id}/feedback`, { feedback });
             toast.success("Feedback submitted!");
-            setListing({ ...listing, feedbacks: [...listing.feedbacks, { ...res.data.feedback, author: currUser }] });
+            const newFeedbacks = [...(listing.feedbacks || []), { ...res.data.feedback, author: currUser }];
+            setListing({ ...listing, feedbacks: newFeedbacks });
             setFeedback({ comment: '', rating: 5 });
         } catch (err) {
             toast.error("Please login to post feedback");
