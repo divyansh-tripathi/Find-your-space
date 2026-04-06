@@ -26,7 +26,7 @@ async function main() {
 }
 
 const corsOptions = {
-    origin: ["https://find-your-space.vercel.app", "http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
+    origin: ["https://find-your-space-delta.vercel.app", "http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
     credentials: true,
     optionsSuccessStatus: 200
 };
